@@ -39,7 +39,7 @@ function loadGames() {
     const parsed = JSON.parse(stored);
     return Array.isArray(parsed) ? parsed.filter(isUsableGame) : [];
   } catch (error) {
-    showStatus("The nest could not read saved games from this browser.");
+    showStatus("这个浏览器里的猫窝数据暂时读不出来。");
     return [];
   }
 }
@@ -55,13 +55,13 @@ function handleSubmit(event) {
   const html = htmlInput.value;
 
   if (!title) {
-    showStatus("Please add a title before saving.");
+    showStatus("名字不能为空。");
     titleInput.focus();
     return;
   }
 
   if (!html.trim()) {
-    showStatus("Please paste standalone HTML before saving.");
+    showStatus("HTML 代码不能为空。");
     htmlInput.focus();
     return;
   }
@@ -89,7 +89,7 @@ function handleSubmit(event) {
   form.reset();
   setEditMode(null);
   render();
-  showStatus("Cache hit - your little game is safe in the 猫窝.");
+  showStatus("缓存命中——小游戏已经乖乖躺进猫窝啦。");
 }
 
 function render() {
@@ -134,16 +134,16 @@ function createGameCard(game) {
 
   const meta = document.createElement("p");
   meta.className = "game-meta";
-  meta.textContent = `Saved ${formatDate(game.createdAt)} · Updated ${formatDate(game.updatedAt)}`;
+  meta.textContent = `存入 ${formatDate(game.createdAt)} · 更新 ${formatDate(game.updatedAt)}`;
   card.appendChild(meta);
 
   const actions = document.createElement("div");
   actions.className = "card-actions";
 
-  actions.appendChild(makeButton("Run", "run-button", () => runGame(game)));
-  actions.appendChild(makeButton("Edit", "soft-button", () => startEdit(game)));
-  actions.appendChild(makeButton("Duplicate", "soft-button", () => duplicateGame(game)));
-  actions.appendChild(makeButton("Delete", "delete-button", () => deleteGame(game)));
+  actions.appendChild(makeButton("开始玩", "run-button", () => runGame(game)));
+  actions.appendChild(makeButton("修改", "soft-button", () => startEdit(game)));
+  actions.appendChild(makeButton("复制", "soft-button", () => duplicateGame(game)));
+  actions.appendChild(makeButton("删除", "delete-button", () => deleteGame(game)));
 
   card.appendChild(actions);
   return card;
@@ -165,11 +165,11 @@ function runGame(game) {
 
   if (!opened) {
     URL.revokeObjectURL(url);
-    showStatus("The new tab was blocked. Please allow popups for this site, then tap Run again.");
+    showStatus("新页面被浏览器拦住了，请允许这个网站打开弹出页面。");
     return;
   }
 
-  showStatus("Opening your saved game in a new tab.");
+  showStatus("正在新页面打开这个小游戏。");
   window.setTimeout(() => URL.revokeObjectURL(url), 60000);
 }
 
@@ -179,7 +179,7 @@ function startEdit(game) {
   tagsInput.value = game.tags.join(", ");
   htmlInput.value = game.html;
   setEditMode(game.id);
-  showStatus("Edit mode is active for this saved game.");
+  showStatus("正在修改这个小游戏。");
   titleInput.focus();
   window.scrollTo({ top: 0, behavior: "smooth" });
 }
@@ -187,7 +187,7 @@ function startEdit(game) {
 function cancelEdit() {
   form.reset();
   setEditMode(null);
-  showStatus("Edit mode canceled.");
+  showStatus("已取消编辑。");
 }
 
 function setEditMode(id) {
@@ -195,7 +195,7 @@ function setEditMode(id) {
   const isEditing = Boolean(id);
   editBadge.hidden = !isEditing;
   cancelEditButton.hidden = !isEditing;
-  saveButton.textContent = isEditing ? "Save changes" : "Save game";
+  saveButton.textContent = isEditing ? "保存修改" : "存进猫窝";
 }
 
 function duplicateGame(game) {
@@ -203,7 +203,7 @@ function duplicateGame(game) {
   const copy = {
     ...game,
     id: createId(),
-    title: `${game.title} copy`,
+    title: `${game.title} 副本`,
     createdAt: now,
     updatedAt: now
   };
@@ -211,11 +211,11 @@ function duplicateGame(game) {
   games = [copy, ...games];
   saveGames();
   render();
-  showStatus("A soft little duplicate has joined the shelf.");
+  showStatus("已经复制一份到玩具架上。");
 }
 
 function deleteGame(game) {
-  const confirmed = window.confirm(`Delete "${game.title}" from Cat HTML Nest?`);
+  const confirmed = window.confirm(`要删除「${game.title}」这个小游戏吗？`);
   if (!confirmed) {
     return;
   }
@@ -226,7 +226,7 @@ function deleteGame(game) {
   }
   saveGames();
   render();
-  showStatus("Game deleted.");
+  showStatus("小游戏已删除。");
 }
 
 function exportGames() {
@@ -242,7 +242,7 @@ function exportGames() {
   link.click();
   link.remove();
   URL.revokeObjectURL(url);
-  showStatus("Backup exported as JSON.");
+  showStatus("备份已经导出。");
 }
 
 function importGames(event) {
@@ -261,19 +261,19 @@ function importGames(event) {
       const imported = normalizeImport(parsed);
 
       if (imported.length === 0) {
-        showStatus("No usable games were found in that JSON file.");
+        showStatus("这个 JSON 里没有找到可用的小游戏。");
         return;
       }
 
-      const merge = window.confirm("Import backup: OK merges with this shelf. Cancel replaces everything.");
+      const merge = window.confirm("导入备份：点“确定”和现有小游戏合并；点“取消”会替换掉现在所有小游戏。");
       games = merge ? mergeGames(games, imported) : imported;
       saveGames();
       setEditMode(null);
       form.reset();
       render();
-      showStatus(merge ? "Backup merged into the nest." : "Backup replaced this shelf.");
+      showStatus(merge ? "备份已经合并进猫窝。" : "备份已经替换当前玩具架。");
     } catch (error) {
-      showStatus("That JSON backup could not be imported.");
+      showStatus("这个 JSON 备份导入失败。");
     }
   });
 
@@ -355,10 +355,10 @@ function validDate(value) {
 
 function formatDate(value) {
   if (!validDate(value)) {
-    return "unknown";
+    return "未知时间";
   }
 
-  return new Intl.DateTimeFormat(undefined, {
+  return new Intl.DateTimeFormat("zh-CN", {
     month: "short",
     day: "numeric",
     year: "numeric"

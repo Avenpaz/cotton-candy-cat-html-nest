@@ -1,86 +1,91 @@
-# Cat HTML Nest
+# 猫猫游乐园
 
-A soft mobile HTML mini-game vault for saving and launching personal standalone HTML games.
+一个柔软、手机优先的 HTML 小游戏猫窝。你可以把完整的独立 HTML 小游戏粘进来，存成可爱的卡片，以后点 **开始玩** 就能在新页面里打开。
 
-Cat HTML Nest is a static, phone-first web app. Paste complete HTML games generated elsewhere, save them as cozy cards, and tap **Run** later to open a saved game in a full new browser tab.
+这个项目只有静态文件，不需要后端、账号、数据库或构建步骤，适合放在 GitHub Pages 上使用。
 
-## What it does
+## 这个网站是做什么的
 
-- Saves standalone HTML mini-games in your browser with `localStorage`.
-- Stores games under the key `cottonCandyCatHtmlNest.games`.
-- Lets you add a title, optional description, optional tags, and the exact pasted HTML.
-- Supports search, edit, duplicate, delete, JSON export, and JSON import.
-- Opens saved games in a new tab using a browser-native Blob URL.
+- 保存你粘贴的独立 HTML 小游戏。
+- 用本机浏览器的 `localStorage` 存储数据。
+- 支持保存、修改、取消编辑、复制、删除、搜索。
+- 支持导出 JSON 备份和导入 JSON 备份。
+- 点击 **开始玩** 时，用 Blob URL 在新的完整浏览器页面打开小游戏。
+- 不使用 iframe，不使用弹窗预览，也不把小游戏嵌在当前页面里运行。
 
-Saved game objects use this shape:
+## 如何存 HTML 小游戏
 
-```json
-{
-  "id": "string",
-  "title": "string",
-  "description": "string",
-  "tags": ["string"],
-  "html": "string",
-  "createdAt": "string",
-  "updatedAt": "string"
-}
-```
+1. 打开 `index.html`，或者打开部署后的 GitHub Pages 页面。
+2. 在 **名字** 里填一个小游戏名字。
+3. 可选：写一点 **备注**。
+4. 可选：添加逗号分隔的 **标签**。
+5. 把完整的 standalone HTML 小游戏粘到 **HTML 代码**。
+6. 点 **存进猫窝**。
 
-## How to use
+粘贴的 HTML 会尽量原样保存。界面本身不会把保存的名字、备注、标签当作 HTML 渲染。
 
-1. Open `index.html` on your phone or from a hosted static site.
-2. Enter a title.
-3. Optionally add a description and comma-separated tags.
-4. Paste a complete standalone HTML mini-game.
-5. Tap **Save game**.
-6. Tap **Run** on any saved card to launch it in a full new tab.
+## 如何开始玩
 
-The app is not a developer code editor. It is meant for pasting complete HTML and playing.
+在玩具架里找到小游戏卡片，点 **开始玩**。
 
-## Local storage
+浏览器会为这个小游戏创建一个临时 Blob URL，并在新的完整标签页或页面里打开。粘贴的 HTML 只会在你点击 **开始玩** 时执行。
 
-Games are stored only in the current browser's `localStorage` under:
+手机浏览器可能会拦截新页面。如果点了没有反应，请允许这个站点打开弹出页面，然后再试一次。
+
+## localStorage 数据
+
+所有小游戏只保存在当前浏览器本地，使用这个 key：
 
 ```text
 cottonCandyCatHtmlNest.games
 ```
 
-There is no backend, account system, external database, or build step. Data stays in the browser where you saved it.
+这表示：
 
-Mobile browsers may clear `localStorage` under storage pressure, during browser cleanup, or when site data is removed. Export JSON backups regularly.
+- 换手机、换浏览器、清理网站数据后，原来的数据不会自动同步。
+- 浏览器在存储压力下可能清理 `localStorage`。
+- 这个 app 不是长期归档系统，所以重要小游戏要定期导出备份。
 
-## Export and import backups
+## 为什么要定期导出备份
 
-Open **Backups** in the app:
+`localStorage` 很方便，但它只属于当前浏览器。系统清理、浏览器清理、隐私设置、存储空间不足，都可能让本地数据消失。
 
-- **Export JSON** downloads all saved games as a backup file.
-- **Import JSON** reads a backup file and asks whether to merge it into the current shelf or replace all current games.
+建议经常点 **备份** 里的 **导出备份**，把 JSON 文件存到安全的位置。
 
-Keep exported JSON files somewhere safe if the games matter to you.
+## 如何导入备份
 
-## Run locally
+1. 打开页面里的 **备份**。
+2. 点 **导入备份**。
+3. 选择之前导出的 JSON 文件。
+4. 提示出现时：
+   - 点 **确定**：和当前已有小游戏合并。
+   - 点 **取消**：用备份替换当前所有小游戏。
 
-No installation is required. Open `index.html` directly in a browser.
+## 本地打开
 
-Some mobile browsers apply stricter rules to files opened directly from local storage. If a feature is limited, host the folder as a static site or use GitHub Pages.
+不需要安装依赖。直接用浏览器打开 `index.html` 即可。
 
-## GitHub Pages
+部分手机浏览器对本地文件会有更多限制。如果遇到运行或打开新页面的问题，建议使用 GitHub Pages 部署后的网址。
 
-This app is ready to publish from the repository root on the `main` branch.
+## GitHub Pages 使用说明
 
-If GitHub Pages is not configured automatically:
+这个项目可以从 `main` 分支的仓库根目录发布。
 
-1. Open the repository on GitHub.
-2. Go to **Settings**.
-3. Go to **Pages**.
-4. Set the source to **Deploy from branch**.
-5. Choose **main** and **root**.
-6. Save.
+如果还没有开启 GitHub Pages：
 
-## Mobile browser notes
+1. 打开 GitHub 仓库。
+2. 进入 **Settings**。
+3. 进入 **Pages**。
+4. 在 **Build and deployment** 里选择 **Deploy from a branch**。
+5. Branch 选择 `main`。
+6. Folder 选择 `/ (root)`。
+7. 点击 **Save**。
 
-- The app is designed for iPhone-sized mobile browsers.
-- Running games opens a new tab and may require popups to be allowed for the site.
-- Pasted HTML is preserved exactly in storage.
-- Pasted HTML is executed only when you tap **Run**.
-- Export JSON backups regularly because browser storage is not permanent archival storage.
+部署完成后，GitHub 会在 Pages 页面显示可访问的网址。
+
+## 手机浏览器提醒
+
+- 这个页面主要为 iPhone 尺寸的手机浏览器设计。
+- `localStorage` 可能被浏览器清理，请定期导出备份。
+- 点击 **开始玩** 会打开新页面，可能需要允许弹出页面。
+- 用户粘贴的 HTML 只会在点击 **开始玩** 时执行。

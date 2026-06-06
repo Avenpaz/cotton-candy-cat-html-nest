@@ -26,7 +26,7 @@ body {
   min-height: 100vh;
   margin: 0;
   color: var(--ink);
-  font-family: ui-rounded, "SF Pro Rounded", "Segoe UI", system-ui, -apple-system, sans-serif;
+  font-family: "PingFang SC", "Microsoft YaHei", "Noto Sans SC", system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
   letter-spacing: 0;
 }
 
@@ -120,6 +120,7 @@ summary,
   right: 22px;
   color: var(--warm-pink);
   font-weight: 800;
+  opacity: 0.72;
 }
 
 .ear {
@@ -158,8 +159,11 @@ p {
 
 h1 {
   margin-bottom: 8px;
-  font-size: clamp(2.15rem, 14vw, 3.75rem);
-  line-height: 0.96;
+  max-width: 92%;
+  font-family: "PingFang SC", "Microsoft YaHei", "Noto Sans SC", ui-rounded, "SF Pro Rounded", system-ui, sans-serif;
+  font-size: clamp(2.25rem, 12vw, 3.45rem);
+  font-weight: 900;
+  line-height: 1.08;
 }
 
 h2 {
