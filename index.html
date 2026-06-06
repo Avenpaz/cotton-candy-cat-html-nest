@@ -1,0 +1,98 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+    <meta name="theme-color" content="#ffd6e8">
+    <title>Cat HTML Nest</title>
+    <link rel="stylesheet" href="styles.css">
+  </head>
+  <body>
+    <div class="bubbles" aria-hidden="true">
+      <span></span>
+      <span></span>
+      <span></span>
+      <span></span>
+    </div>
+
+    <main class="app-shell">
+      <header class="hero">
+        <div class="cat-panel">
+          <span class="ear ear-left" aria-hidden="true"></span>
+          <span class="ear ear-right" aria-hidden="true"></span>
+          <p class="kicker">cat's private toy shelf</p>
+          <h1>Cat HTML Nest</h1>
+          <p>A cotton-candy little nest for saved HTML games.</p>
+        </div>
+      </header>
+
+      <section class="form-card" aria-labelledby="form-title">
+        <div class="section-heading">
+          <div>
+            <p class="kicker">猫窝</p>
+            <h2 id="form-title">Save a game</h2>
+          </div>
+          <span id="editBadge" class="edit-badge" hidden>Edit mode</span>
+        </div>
+
+        <form id="gameForm">
+          <label for="titleInput">Title</label>
+          <input id="titleInput" name="title" type="text" autocomplete="off" required placeholder="Tiny jump game">
+
+          <label for="descriptionInput">Description</label>
+          <textarea id="descriptionInput" name="description" rows="3" placeholder="Optional notes for future you"></textarea>
+
+          <label for="tagsInput">Tags</label>
+          <input id="tagsInput" name="tags" type="text" autocomplete="off" placeholder="cozy, platformer, sparkle">
+
+          <label for="htmlInput">Standalone HTML</label>
+          <textarea id="htmlInput" name="html" class="html-paste" spellcheck="false" required placeholder="Paste a complete HTML mini-game here"></textarea>
+
+          <div class="form-actions">
+            <button class="primary-button" type="submit" id="saveButton">Save game</button>
+            <button class="ghost-button" type="button" id="cancelEditButton" hidden>Cancel Edit</button>
+          </div>
+        </form>
+        <p id="statusMessage" class="status-message" role="status" aria-live="polite"></p>
+      </section>
+
+      <section class="tools-card" aria-label="Game tools">
+        <label for="searchInput">Search shelf</label>
+        <input id="searchInput" type="search" autocomplete="off" placeholder="Search titles, notes, or tags">
+
+        <details class="backup-panel">
+          <summary>Backups</summary>
+          <div class="backup-actions">
+            <button class="soft-button" type="button" id="exportButton">Export JSON</button>
+            <label class="file-button" for="importInput">Import JSON</label>
+            <input id="importInput" type="file" accept="application/json,.json">
+          </div>
+        </details>
+      </section>
+
+      <section class="shelf" aria-labelledby="shelf-title">
+        <div class="section-heading shelf-heading">
+          <div>
+            <p class="kicker">saved games</p>
+            <h2 id="shelf-title">Toy shelf</h2>
+          </div>
+          <span id="gameCount" class="count-pill">0</span>
+        </div>
+        <div id="cardsList" class="cards-list"></div>
+        <div id="emptyState" class="empty-state">
+          <div class="paw" aria-hidden="true">
+            <span></span><span></span><span></span><span></span>
+          </div>
+          <p>Low-power mode: no games saved yet.</p>
+        </div>
+      </section>
+
+      <footer class="footer">
+        <span>♡-釛淿釛?</span>
+        <small title="TD退订无效，家G默认续订小茵猫猫服务">TD退订无效，家G默认续订小茵猫猫服务</small>
+      </footer>
+    </main>
+
+    <script src="app.js"></script>
+  </body>
+</html>
